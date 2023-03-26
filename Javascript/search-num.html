@@ -1,0 +1,43 @@
+<!-- // 1~100 사이의 숫자중 랜덤하게 컴퓨터가 하나 선택하면 사람이 숫자를 맞추기. -->
+<!-- // 크다>작자 -->
+<style>
+
+</style>
+
+<body>
+    <label style="font-size: 25;">1 ~ 100 사의 값</label>
+    <br>
+    <label >정답은 ? </label><input style="margin: 5;">
+    <button>확인</button>
+    <br>
+    <span style="font-size: 50;">두근두근</span>
+</body>
+
+<!-- 태그 객체 생성 -->
+<script>
+const $label = document.querySelector('label');
+const $input = document.querySelector('input');
+const $button = document.querySelector('button');
+const $span = document.querySelector('span');
+const computer = parseInt(((Math.random() * 100)+1));
+let number;
+const onInput = (event)=>{
+        number = event.target.value;
+    };
+</script>
+
+<!-- 이벤트 등록 -->
+<script>
+    $input.addEventListener('input',onInput) 
+
+    $button.addEventListener('click',()=>{
+    if(number == computer){
+        $span.textContent = '정답입니다.';
+    }else if (number > computer) {
+        $span.textContent = '작은 수를 입력하세요';
+    } else if(number < computer){
+        $span.textContent = '큰수를 입력하세요';
+    }
+    });
+
+</script>

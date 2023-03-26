@@ -1,0 +1,123 @@
+<style>
+    button{
+        width: 50;
+        height: 50;
+        margin: 5;
+    }
+    #operator{
+        width: 50;
+        height: 50;
+        margin: 5;
+        text-align: center;
+    }
+
+    #result{
+        width: 180;
+        height: 50;
+        margin: 5;
+        text-align: right;
+    }
+    
+</style>
+
+<body>
+    <input readonly id = 'operator'>
+    <input readonly id = 'result'>
+    <br>
+    <button id = 'num-7'>7</button>
+    <button id = 'num-8'>8</button>
+    <button id = 'num-9'>9</button>
+    <button id = 'plus'>+</button>
+    <br>
+    <button id = 'num-4'>4</button>
+    <button id = 'num-5'>5</button>
+    <button id = 'num-6'>6</button>
+    <button id = 'minus'>-</button>
+    <br>
+    <button id = 'num-1'>1</button>
+    <button id = 'num-2'>2</button>
+    <button id = 'num-3'>3</button>
+    <button id = 'divide'>/</button>
+    <br>
+    <button id = 'clear'>C</button>
+    <button id = 'num-0'>0</button>
+    <button id = 'calculate'>=</button>
+    <button id = 'multiple'>x</button>
+</body>
+
+<script>
+    const onClickNumber = (event)=>{       
+        if(operator){           
+            numTwo  += event.target.textContent;
+          
+        }else{
+            numOne  += event.target.textContent;
+        }
+       
+        $result.value += event.target.textContent;
+    }
+    const onClickOperator = (event)=>{
+        $operator.value = operator = event.target.textContent;
+        $result.value = '';
+    }
+</script>
+
+<script>
+    let numOne = '';
+    let numTwo = '';
+    let operator = '';
+    const $operator = document.querySelector('#operator');
+    const $result = document.querySelector('#result');
+    document.querySelector('#num-0').addEventListener('click',onClickNumber);
+    document.querySelector('#num-1').addEventListener('click',onClickNumber);
+    document.querySelector('#num-2').addEventListener('click',onClickNumber);
+    document.querySelector('#num-3').addEventListener('click',onClickNumber);
+    document.querySelector('#num-4').addEventListener('click',onClickNumber);
+    document.querySelector('#num-5').addEventListener('click',onClickNumber);
+    document.querySelector('#num-6').addEventListener('click',onClickNumber);
+    document.querySelector('#num-7').addEventListener('click',onClickNumber);
+    document.querySelector('#num-8').addEventListener('click',onClickNumber);
+    document.querySelector('#num-9').addEventListener('click',onClickNumber);
+    document.querySelector('#plus').addEventListener('click',onClickOperator);
+    document.querySelector('#minus').addEventListener('click',onClickOperator);
+    document.querySelector('#divide').addEventListener('click',onClickOperator);
+    document.querySelector('#multiple').addEventListener('click',onClickOperator);
+    document.querySelector('#clear').addEventListener('click',()=>{
+        $operator.value = '';
+        $result.value='';
+        numOne = numTwo = operator = '';
+    });
+    document.querySelector('#calculate').addEventListener('click',()=>{
+        operator = $operator.value;
+        
+        switch (operator) {
+            case '+':
+                $result.value = Number(numOne) + Number(numTwo);
+                numOne = $result.value;
+                numTwo = '';
+                break;
+            case '-':
+                $result.value = Number(numOne) - Number(numTwo);
+                numOne = $result.value;
+                numTwo = '';
+                break;
+            case '/':
+                $result.value = Number(numOne) / Number(numTwo);
+                numOne = $result.value;
+                numTwo = '';
+                break;
+            case 'x':
+                $result.value = Number(numOne) * Number(numTwo);
+                numOne = $result.value;
+                numTwo = '';
+                break;
+            default:
+                break;
+        }
+        
+    });
+
+    
+</script>
+
+
