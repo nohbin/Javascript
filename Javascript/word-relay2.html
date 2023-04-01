@@ -18,30 +18,41 @@
     let word;   // 제시어
     let newWord; // 현재 단어
     
+    const isDupl = (newWord) => {
+        return wordList.includes(newWord);
+    };
+    
     const onClickButton = ()=>{
+        $input.value = '';
         if (number === (Number)($order.textContent)){
             $order.textContent=0;
         };
         $order.textContent = (Number)($order.textContent) +1;
-        
+
         if (!word){
+            // 첫 시작
             word = newWord; // 입력한 단어가 제시어
             $word.textContent = word; // 화면에 단어 표시 
             wordList.push(newWord);
-        }else{
+        } else {
             // 비어 있지 않다
-            wordList.push(newWord);
+            if (isDupl(newWord)) { 
+                alert("중복된 단어입니다.");
+                return;
+                
+            }
             if(word[word.length-1] === newWord[0]){
                 word = newWord;
                 $word.textContent = word;
-            }else{ // 틀렸을때
+                wordList.push(newWord);
+            } else { // 틀렸을때
                 alert('올바르지 않은 단어입니다.');
-                word = newWord;
                 $word.textContent = word;
-                wordList.pop()
+                
             }
         }
     };
+
     const onInput = (event)=>{
         newWord =  event.target.value;
     };
@@ -50,4 +61,3 @@
     $input.addEventListener('input', onInput);
 
 </script>
-
