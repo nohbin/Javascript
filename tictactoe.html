@@ -1,0 +1,94 @@
+<style>
+    table{
+        border-collapse: collapse;
+    }
+    td{
+        border : 1px solid black;
+        width: 100;
+        height: 100;
+        text-align: center;
+        font-size: 50;
+    }
+    button{
+        width: 100;
+        height: 100;
+    }
+</style>
+<body>
+    <table>
+        <td id = 't00'></td>
+        <td id = 't01'></td>
+        <td id = 't02'></td>
+        <tr></tr>
+        <td id = 't10'></td>
+        <td id = 't11'></td>
+        <td id = 't12'></td>
+        <tr ></tr>
+        <td id = 't20'></td>
+        <td id = 't21'></td>
+        <td id = 't22'></td>
+    </table>
+    <div id = 'result'></div><br>
+    <button id = 'restart' >Restart</button>
+</body>
+
+<script>
+    let mark = 'X';
+    const rows = [];
+    const matrix = [[null,null,null],[null,null,null],[null,null,null]];
+    const $result = document.querySelector('#result');
+    const $table = document.querySelectorAll('td');
+    const callback = (event)=>{
+        if(event.target.textContent !==''){
+            alert('빈칸이 아닙니다.')
+        }else{
+            mark = mark === 'X'?'O' : 'X';
+            event.target.textContent = mark;
+
+            let a = parseInt(event.target.id.charAt(1));
+            let b = parseInt(event.target.id.charAt(2));
+            matrix[a][b]=mark;
+            checkGame(matrix);
+        }
+    };
+
+
+    $table.forEach(td => {
+        td.addEventListener('click',callback);
+    });
+
+
+    const checkGame = (m) => {
+        for (let i = 0; i < 3; i++) {
+           
+            if (m[i][0] !== null && m[i][0] === m[i][1] && m[i][1] === m[i][2]) {
+            $result.textContent = m[i][0] + '우승';
+            return;
+            }
+            
+            if (m[0][i] !== null && m[0][i] === m[1][i] && m[1][i] === m[2][i]) {
+            $result.textContent = m[0][i] + '우승';
+            return;
+            }
+        }
+        
+        if (m[0][0] !== null && m[0][0] === m[1][1] && m[1][1] === m[2][2]) {
+        $result.textContent = m[0][0] + '우승';
+        return;
+        }
+        if (m[0][2] !== null && m[0][2] === m[1][1] && m[1][1] === m[2][0]) {
+        $result.textContent = m[0][2] + '우승';
+        return;
+        }
+        
+        if (m.flat().indexOf(null) === -1) {
+        $result.textContent = 'Draw';
+        }
+    }   
+
+
+    
+
+
+
+</script>

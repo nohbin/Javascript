@@ -1,0 +1,55 @@
+<style>
+    .ball{
+        display: inline-block;
+        border : 3px solid black;
+        border-radius: 40px;
+        width: 80px;
+        height: 80px;
+        line-height: 80px;
+        font-size: 40px;
+        text-align: center;
+        margin: 20;
+    }
+</style>
+
+
+<body>
+    <div id = 'result'>추첨 결과 : </div>
+    <div id = 'bonus'>보너스 : </div>
+    
+</body>
+<script>
+    const candidate=[];
+    $result = document.querySelector('#result');
+    $bonus = document.querySelector('#bonus');
+    for (let i = 1; i <=45; i++) {
+        candidate.push(i);
+    }
+    for (let idx = 0; idx <100; idx++) {
+        const i = Math.floor(Math.random()*(candidate.length));
+        const j = Math.floor(Math.random()*(candidate.length));
+        [candidate[i], candidate[j]] = [candidate[j], candidate[i]];
+    }
+   
+
+    lottoNums = candidate.slice(0,7);
+    //타이머 일정 시간 이후 정해진 함수 또는 로직 수행.
+    for (let i = 0; i < 6; i++) {
+        setTimeout(() => {
+            const $ball = document.createElement('div');
+            $ball.className = 'ball';
+            $ball.textContent = lottoNums[i];
+            $result.appendChild($ball);
+        }, 1000*1*(i+1));
+    }
+    setTimeout(() => {
+            const $ball = document.createElement('div');
+            $ball.className = 'ball';
+            $ball.textContent = lottoNums[lottoNums.length-1];
+            $bonus.appendChild($ball);
+    }, 1000*1*(lottoNums.length));
+
+</script>
+
+// var 는 값이 계속 update 가 된다.
+// 

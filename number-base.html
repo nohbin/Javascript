@@ -1,0 +1,88 @@
+<form id = 'form'>
+    <input type ='number' id = 'input'>
+    <button >확인</button>
+</form>
+<span id = 'logs'></span>
+
+<script>
+    const $input = document.querySelector('#input');
+    const $form = document.querySelector('#form');
+    const $logs = document.querySelector('#logs');
+    const numbers = [];
+    for (let index = 1; index < 10; index++) {  // 1~9 까지 numbers 배열에 저장
+        numbers.push(index);
+    }
+    const answer = []; // 정답을 담을 배열
+    for (let i = 0; i < 3; i++) {
+        const index = Math.floor(Math.random()*numbers.length) // 길이에 따라 랜덤 번호 출력
+        answer.push(numbers[index]);
+        numbers.splice(index,1);
+    }
+    console.log(answer)
+    const tries = [];
+
+   $form.addEventListener('submit',()=>{
+        event.preventDefault(); // 폼의 기본 동작(새로 고침)을 취소한다.
+        const value = $input.value; // 문자열 로 들어옴.
+        $input.value = '';
+        const valid = checkInput(value); // 길이가 4글자,중복,시도한 값인지 확인
+        tries.push(value);
+        if(!valid) return;
+        if(answer.join("")===value){
+            $logs.textContent = '홈런~!!!!!~!~!~~~!';
+            
+            return;
+        } 
+        else{
+            let strike = 0;
+            let ball = 0;
+            for (let i = 0; i < answer.length; i++) {
+                if(i === value.indexOf(answer[i])){
+                    strike++;
+                }else if(value.indexOf(answer[i]!==-1)){
+                    ball ++;
+                }
+            }
+            
+        }
+
+        // const [strike , ball] = getScore(answer.join(""),value);
+        // const message = document.createTextNode(`${value}: ${strike} 스트라이크 ${ball}볼`);
+        // $logs.appendChild(message);
+        // tries.push(value);
+        if(tries.length>=9){
+            const message = document.createTextNode(`패배! 정답은 ${answer.join("")}`);
+            $logs.appendChild(message);
+            
+            return;
+        }
+    });
+
+    const getScore = (answer, value) => {
+        let strike = 0;
+        let ball = 0;
+        for (let index = 0; index < answer.length; index++) {
+            if(answer[index]=== value[index]){
+                strike++;
+            }else if(answer.includes(value[index])){
+                ball++;
+            }
+        }
+    }
+
+    const checkInput = (input)=>{
+        if(input.length!==3){
+            return alert('3자리 수를 넣어주세요');
+        }
+        if(new Set(input).size!==3){ // new Set('1123') = 123 만 입력 / 중복 제거
+            return alert('중복 되지 않은 수를 입력해주세요');
+        }
+        if(tries.includes(input)){
+            return alert('이미 시도한 값입니다.')
+        }
+        return true;
+    }
+
+    
+
+</script>

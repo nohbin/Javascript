@@ -1,0 +1,106 @@
+<style>
+    #computer{
+        width: 170px;
+        height: 200px;
+    }
+</style>
+<!-- <img src="./rsp.png"> -->
+<div id ='computer'></div>
+<div>
+    <button  id = 'sci'>가위</button>
+    <button  id = 'stone'>바위</button>
+    <button  id = 'paper'>보</button>
+</div>
+<div id = 'result'></div>
+    <!-- // $computer.style.background = `url(${IMG_URL})170px 0px`; // 보
+    // $computer.style.background = `url(${IMG_URL})380px 0px`; // 주먹
+    // $computer.style.background = `url(${IMG_URL})0px 0px`; // 가위 -->
+    <!-- 두 수를 빼고 1을 더한 값에 % 3을 했을 경우 0 이 되면 사용자 패배,
+        아닐경우 컴퓨터가 패배.
+        1일 경우 무승부 -->
+<script>
+    const $sci = document.querySelector('#sci');
+    const $stone = document.querySelector('#stone');
+    const $paper = document.querySelector('#paper');
+    const $computer = document.querySelector('#computer');
+    const $result = document.querySelector('#result')
+    const IMG_URL = './rsp.png';
+    const temps = ['0','380px','170px'];
+    const randomGame = function(){
+        countnum++;
+        $computer.style.background = `url(${IMG_URL}) ${temps[countnum % 3]} 0`;         
+        $computer.style.backgroundSize = 'auto 200px'
+    };
+    const comImage = ()=>{
+        if(comNumber === 1){
+            $computer.style.background = `url(${IMG_URL}) ${temps[0]} 0`;
+            $computer.style.backgroundSize = 'auto 200px'
+        }else if(comNumber===2){
+            $computer.style.background = `url(${IMG_URL}) ${temps[1]} 0`;
+            $computer.style.backgroundSize = 'auto 200px'
+        }else if(comNumber===3){
+            $computer.style.background = `url(${IMG_URL}) ${temps[2]} 0`;
+            $computer.style.backgroundSize = 'auto 200px'
+        }
+    }
+
+    let countnum = 0;
+    let intervalId;    
+    intervalId =  setInterval(() => {
+        randomGame();
+    }, 100);
+    let comNumber = Math.floor((Math.random()*3))+1;
+    console.log(comNumber);
+    let playerNumber = -1;
+    
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach((button,idx) => {
+        
+        button.addEventListener('click',()=>{
+            playerNumber = idx +1;
+            clearInterval(intervalId);
+            gameResult();
+            comImage();
+        });
+    })
+
+
+
+    
+    
+    // $sci.addEventListener('click',()=>{
+    //     playerNumber = 1;
+    //     comImage();
+    //     clearInterval(intervalId);
+    //     gameResult();
+
+    // });
+    // $stone.addEventListener('click',()=>{
+    //     playerNumber = 2;
+    //     clearInterval(intervalId);
+    //     gameResult();
+    //     comImage();
+    //     // intervalId =  setInterval(() => {
+    //     //     randomGame();
+    //     // }, 100);
+    // });
+    // $paper.addEventListener('click',()=>{
+    //     playerNumber = 3;
+    //     clearInterval(intervalId);
+    //     gameResult();
+    //     comImage();
+        
+    // });
+
+    
+    const gameResult = ()=>{
+        var result = playerNumber - comNumber +1;
+        if(result ===1){
+            $result.textContent = 'Draw.'
+        }else if(result%3===0){
+            $result.textContent = 'Computer Win.'
+        }else{
+            $result.textContent = 'Player Win.'
+        }
+    }
+</script>
