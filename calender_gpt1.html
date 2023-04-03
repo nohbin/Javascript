@@ -1,0 +1,99 @@
+<style>
+    table{
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th{
+        border: 1px solid black;
+        width: 100px;
+        height: 50px;
+        text-align: center;
+        font-size: 20px;
+    }
+    td{
+        border: 1px solid black;
+        width: 100px;
+        height: 50px;
+        text-align: center;
+        font-size: 20px;
+    }
+</style>
+
+<body>
+    <div>
+        <input id="year" placeholder="년도(yyyy)">
+        <input id="month" placeholder="월(mm)">
+        <button id="confirm">확인</button>
+    </div>
+
+    <table id="calendar">
+        <thead>
+            <tr>
+                <th>일</th>
+                <th>월</th>
+                <th>화</th>
+                <th>수</th>
+                <th>목</th>
+                <th>금</th>
+                <th>토</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        const calendarBody = document.querySelector('#calendar tbody');
+        const confirmButton = document.querySelector('#confirm');
+        
+        function renderCalendar(year, month) {
+            // 이전에 그려진 달력을 초기화
+            calendarBody.innerHTML = '';
+
+            // 입력된 년, 월의 첫 날과 마지막 날 구하기
+            const firstDay = new Date(year, month - 1, 1);
+            const lastDay = new Date(year, month, 0);
+            
+            // 날짜를 출력할 2차원 배열 초기화
+            const dates = [];
+            for (let i = 0; i < 6; i++) {
+                dates.push(new Array(7).fill(''));
+            }
+            
+            // 날짜를 배열에 저장
+            let date = 1;
+            for (let i = firstDay.getDay(); i < 7; i++) {
+                dates[0][i] = date++;
+            }
+            for (let i = 1; i < 6; i++) {
+                for (let j = 0; j < 7; j++) {
+                    if (date <= lastDay.getDate()) {
+                        dates[i][j] = date++;
+                    }
+                }
+            }
+            
+            // 날짜 배열을 통해 HTML 테이블에 날짜 출력
+            for (let i = 0; i < 6; i++) {
+                const row = document.createElement('tr');
+                for (let j = 0; j < 7; j++) {
+                    const cell = document.createElement('td');
+                    cell.innerText = dates[i][j];
+                    row.appendChild(cell);
+                }
+                calendarBody.appendChild(row);
+            }
+        }
+        
+        confirmButton.addEventListener('click', () => {
+            const year = document.querySelector('#year').value;
+            const month = document.querySelector('#month').value;
+            
+            if (year === '' || month === '') {
+                alert('년과 월을 입력해주세요.');
+            } else {
+                renderCalendar(year, month);
+            }
+        });
+    </script>
+</body>

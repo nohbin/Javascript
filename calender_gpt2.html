@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>달력 출력하기</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            width: 100px;
+            height: 50px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <input type="number" id="year" placeholder="년도 입력">
+        <input type="number" id="month" placeholder="월 입력">
+        <button id="confirm">확인</button>
+    </div><br>
+    <table id="calendar"></table>
+    <script>
+        const $year = document.querySelector('#year');
+        const $month = document.querySelector('#month');
+        const $calendar = document.querySelector('#calendar');
+        const $confirm = document.querySelector('#confirm');
+
+        function getMonthDays(year, month) {
+            return new Date(year, month + 1, 0).getDate();
+        }
+
+        function getFirstDayOfMonth(year, month) {
+            return new Date(year, month, 1).getDay();
+        }
+
+        function renderCalendar(year, month) {
+            const daysInMonth = getMonthDays(year, month);
+            const firstDayOfMonth = getFirstDayOfMonth(year, month);
+            const lastDayOfMonth = new Date(year, month, daysInMonth).getDay();
+
+            const calendar = [];
+            let week = [];
+            let dayCount = 1;
+            for (let i = 0; i < firstDayOfMonth; i++) {
+                week.push(null);
+            }
+            for (let i = 0; i < daysInMonth; i++) {
+                week.push(dayCount);
+                if (week.length === 7) {
+                    calendar.push(week);
+                    week = [];
+                }
+                dayCount++;
+            }
+            if (week.length > 0) {
+                for (let i = week.length; i < 7; i++) {
+                    week.push(null);
+                }
+                calendar.push(week);
+            }
+            $calendar.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>일</th>
+                        <th>월</th>
+                        <th>화</th>
+                        <th>수</th>
+                        <th>목</th>
+                        <th>금</th>
+                        <th>토</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${calendar.map(week => `
+                        <tr>
+                            ${week.map(day => `
+                                <td>${day || ''}</td>
+                            `).join('')}
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+        }
+
+        $confirm.addEventListener('click', () => {
+            const year = parseInt($year.value);
+            const month = parseInt($month.value) - 1;
+            if (!isNaN(year) && !isNaN(month)) {
+                renderCalendar(year, month);
+            }
+        });
+    </script>
+</body>
+</html>
