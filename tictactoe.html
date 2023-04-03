@@ -9,9 +9,17 @@
         text-align: center;
         font-size: 50;
     }
-    button{
-        width: 100;
+    #restart{
+        width: 310;
         height: 100;
+        font-size: 50;
+        background-color: blue;
+    }
+    #restart.one{
+        background-color: red;
+    }
+    #restart.two{
+        background-color: yellow;
     }
 </style>
 <body>
@@ -38,6 +46,17 @@
     const matrix = [[null,null,null],[null,null,null],[null,null,null]];
     const $result = document.querySelector('#result');
     const $table = document.querySelectorAll('td');
+    const $restart = document.querySelector('#restart').addEventListener('click',()=>{
+    for (let i = 0; i < $table.length; i++) {
+        $table[i].textContent = '';
+    }
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix[i].length; j++) { 
+            matrix[i][j] = null;
+        }
+    }
+    $result.textContent = '';
+});
     const callback = (event)=>{
         if(event.target.textContent !==''){
             alert('빈칸이 아닙니다.')
